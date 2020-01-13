@@ -9,16 +9,24 @@
 <div class="card">
     <h1 class="title">Tic Tac Toe</h1>
     <div class="grid">
-        <button class="field">O</button>
-        <button class="field">X</button>
-        <button class="field">X</button>
-        <button class="field"></button>
-        <button class="field"></button>
-        <button class="field"></button>
-        <button class="field"></button>
-        <button class="field"></button>
-        <button class="field"></button>
+        <button class="field" onclick="select(0)"></button>
+        <button class="field" onclick="select(1)"></button>
+        <button class="field" onclick="select(2)"></button>
+        <button class="field" onclick="select(3)"></button>
+        <button class="field" onclick="select(4)"></button>
+        <button class="field" onclick="select(5)"></button>
+        <button class="field" onclick="select(6)"></button>
+        <button class="field" onclick="select(7)"></button>
+        <button class="field" onclick="select(8)"></button>
+    </div>
+    <a class="link" href="">neustarten</a>
+</div>
+<div class="modal">
+    <div class="card">
+        <h2 class="title">Du hast gewonnen!</h2>
+        <a class="link" href="">Nochmal spielen</a>
     </div>
 </div>
+<script src="script.js"></script>
 </body>
 </html>
