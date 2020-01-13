@@ -1,0 +1,40 @@
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: lightgrey;
+}
+
+.card {
+    flex: 1;
+    max-width: 350px;
+    padding: 30px 20px;
+    border-radius: 2px;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.5);
+    background: white;
+}
+
+.title {
+    margin: 0 0 15px;
+    text-align: center;
+    font-family: arial, serif;
+}
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.field {
+    flex: 1;
+    margin: 5px;
+    height: 100px;
+    min-width: 100px;
+    border-radius: 2px;
+    font-size: 50px;
+    background: black;
+    color: white;
+}
+
