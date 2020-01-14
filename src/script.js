@@ -6,10 +6,10 @@ const combinationsToWin = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7]
 var clicks = 0;
 
 function init() {
-    if (document.cookie.length > 0) {
-        displayUserData();
-    } else {
+    if (getCookie("playerX").trim() === "" || getCookie("playerO").trim() === "" || getCookie("pointsX").trim() === "" || getCookie("pointsO").trim() === "") {
         dialogs[0].style.visibility = "visible";
+    } else {
+        displayUserData();
     }
 }
 
@@ -45,13 +45,34 @@ function selectField(index) {
 }
 
 function saveUserData() {
-    document.cookie = "playerX=" + textfields[0].value;
-    document.cookie = "pointsX=0";
-    document.cookie = "playerO=" + textfields[1].value;
-    document.cookie = "pointsO=0";
+    var validInput = true;
 
-    dialogs[0].style.visibility = "hidden";
-    displayUserData();
+    if (textfields[0].value.trim() === "") {
+        textfields[0].style.border = "1px solid red";
+        validInput = false;
+    } else {
+        textfields[0].style.border = "1px solid lightgrey";
+    }
+
+    if (textfields[1].value.trim() === "") {
+        textfields[1].style.border = "1px solid red";
+        validInput = false;
+    } else {
+        textfields[1].style.border = "1px solid lightgrey";
+    }
+
+    if (validInput) {
+        document.cookie = "playerX=" + textfields[0].value;
+        document.cookie = "pointsX=0";
+        document.cookie = "playerO=" + textfields[1].value;
+        document.cookie = "pointsO=0";
+
+        textfields[1].style.border = "1px solid lightgray";
+        textfields[1].style.border = "1px solid lightgray";
+        dialogs[0].style.visibility = "hidden";
+
+        displayUserData();
+    }
 }
 
 function deleteUserData() {
@@ -68,7 +89,14 @@ function displayUserData() {
 
 function getCookie(name) {
     const cookies = document.cookie.split("; ");
-    return cookies.filter((item) => item.substr(0, 7) === name).toString().substr(8);
+    return cookies.filter((item) => {
+            var cookieKey = item.substr(0, 7);
+
+            if (cookieKey === name) {
+                return item;
+            }
+        }
+    ).toString().substr(8);
 }
 
 init();
