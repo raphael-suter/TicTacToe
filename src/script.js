@@ -39,10 +39,8 @@ function selectField(index) {
                 incrementCookieValue("pointsO");
             }
 
-            setTimeout(() => {
-                successDialog.style.visibility = "visible";
-                displayUserData();
-            }, 100);
+            successDialog.style.visibility = "visible";
+            displayUserData();
         }
     });
 
