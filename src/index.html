@@ -22,18 +22,20 @@
     <a class="link" href="">neustarten</a>
 </div>
 <div class="card">
-    <h3 class="title">0:0</h3>
+    <h3 class="title" id="labelUserData">0:0</h3>
     <button class="link" onclick="deleteUserData()">löschen</button>
 </div>
-<div class="modal">
-    <form class="card">
+<div class="modal" id="signInDialog">
+    <form class="card" onsubmit="return saveUserData()">
         <h2 class="title">Spieler</h2>
-        <input type="text" placeholder="Spieler X">
-        <input type="text" placeholder="Spieler O"/>
-        <input class="link" type="button" value="speichern" onclick="saveUserData()"/>
+        <label for="inputTextPlayerX">Spieler X</label>
+        <input id="inputTextPlayerX" placeholder="Name" required type="text"/>
+        <label for="inputTextPlayerO">Spieler O</label>
+        <input id="inputTextPlayerO" placeholder="Name" required type="text"/>
+        <input class="link" type="submit" value="speichern"/>
     </form>
 </div>
-<div class="modal">
+<div class="modal" id="successDialog">
     <div class="card">
         <h2 class="title">Du hast gewonnen!</h2>
         <a class="link" href="">Nochmal spielen</a>

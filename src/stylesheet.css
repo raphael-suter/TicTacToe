@@ -57,6 +57,21 @@ body {
     background: rgba(0, 0, 0, 0.5);
 }
 
+form .title {
+    margin-bottom: 5px;
+}
+
+label {
+    width: 100%;
+    margin: 0 10px -6px;
+    z-index: 100;
+    text-align: left;
+    font-weight: bold;
+    font-family: arial, serif;
+    font-size: 14px;
+    color: navy;
+}
+
 input[type="text"] {
     margin: 10px 10px;
     display: block;
