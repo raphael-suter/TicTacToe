@@ -2,24 +2,36 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Tic Tac Toe</title>
+    <title>tic tac toe</title>
     <link rel="stylesheet" type="text/css" href="stylesheet.css">
 </head>
 <body>
 <div class="card">
-    <h1 class="title">Tic Tac Toe</h1>
+    <h1 class="title">tic tac toe</h1>
     <div class="grid">
-        <button class="field" onclick="select(0)"></button>
-        <button class="field" onclick="select(1)"></button>
-        <button class="field" onclick="select(2)"></button>
-        <button class="field" onclick="select(3)"></button>
-        <button class="field" onclick="select(4)"></button>
-        <button class="field" onclick="select(5)"></button>
-        <button class="field" onclick="select(6)"></button>
-        <button class="field" onclick="select(7)"></button>
-        <button class="field" onclick="select(8)"></button>
+        <button class="field" onclick="selectField(0)"></button>
+        <button class="field" onclick="selectField(1)"></button>
+        <button class="field" onclick="selectField(2)"></button>
+        <button class="field" onclick="selectField(3)"></button>
+        <button class="field" onclick="selectField(4)"></button>
+        <button class="field" onclick="selectField(5)"></button>
+        <button class="field" onclick="selectField(6)"></button>
+        <button class="field" onclick="selectField(7)"></button>
+        <button class="field" onclick="selectField(8)"></button>
     </div>
     <a class="link" href="">neustarten</a>
+</div>
+<div class="card">
+    <h3 class="title">X 0:0 O</h3>
+    <button class="link" onclick="deleteUserData()">löschen</button>
+</div>
+<div class="modal">
+    <form class="card">
+        <h2 class="title">Spieler</h2>
+        <input type="text" placeholder="Spieler X">
+        <input type="text" placeholder="Spieler O"/>
+        <input class="link" type="button" value="speichern" onclick="saveUserData()"/>
+    </form>
 </div>
 <div class="modal">
     <div class="card">
