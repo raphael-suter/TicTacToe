@@ -48,14 +48,14 @@ function saveUserData() {
     var validInput = true;
 
     if (textfields[0].value.trim() === "") {
-        textfields[0].style.border = "1px solid red";
+        textfields[0].style.border = "1px solid darkred";
         validInput = false;
     } else {
         textfields[0].style.border = "1px solid lightgrey";
     }
 
     if (textfields[1].value.trim() === "") {
-        textfields[1].style.border = "1px solid red";
+        textfields[1].style.border = "1px solid darkred";
         validInput = false;
     } else {
         textfields[1].style.border = "1px solid lightgrey";
