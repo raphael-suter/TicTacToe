@@ -1,0 +1,112 @@
+// Colors
+$primary-color: white;
+$secondary-color: lightgrey;
+$accent-color: navy;
+$transparent: rgba(0, 0, 0, 0.5);
+
+// Fonts
+$primary-font-family: arial, serif;
+
+// Other
+$primary-border-radius: 5px;
+
+// Mixins
+@mixin input() {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  font-family: $primary-font-family;
+  font-size: 16px;
+  border-radius: $primary-border-radius;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: $secondary-color;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 10px;
+  max-width: 350px;
+  padding: 0 15px;
+  text-align: center;
+  border-radius: $primary-border-radius;
+  box-shadow: 0 2px 8px 0 $transparent;
+  background: $primary-color;
+}
+
+.title {
+  margin: 30px 0 10px;
+  font-family: $primary-font-family;
+}
+
+.grid {
+  padding: 5px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.field {
+  flex: 1;
+  margin: 5px;
+  height: 100px;
+  min-width: 100px;
+  border-radius: $primary-border-radius;
+  border: none;
+  font-size: 50px;
+  background: $secondary-color;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: $transparent;
+}
+
+form {
+  .title {
+    margin-bottom: 5px;
+  }
+}
+
+label {
+  width: 100%;
+  margin: 0 10px -6px;
+  z-index: 100;
+  text-align: left;
+  font-weight: bold;
+  font-family: $primary-font-family;
+  font-size: 14px;
+  color: $accent-color;
+}
+
+input[type="text"] {
+  margin: 10px;
+  border: 1px solid $secondary-color;
+  @include input();
+}
+
+.link {
+  margin: 15px 10px 25px;
+  background: $accent-color;
+  border: none;
+  font-weight: bold;
+  color: $primary-color;
+  cursor: pointer;
+  @include input();
+}
