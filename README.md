@@ -1,1 +1,1 @@
-# [play](https://raphael-suter.github.io/tictactoe/src)
+# [play](https://raphael-suter.github.io/tictactoe/src/index.html)
