@@ -1,46 +1,56 @@
 let clicks = 0;
-const combinationsToWin = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
+const COMBINATIONS_TO_WIN = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
 
-const signInDialog = document.getElementById("signInDialog");
-const successDialog = document.getElementById("successDialog");
-const inputTextPlayerX = document.getElementById("inputTextPlayerX");
-const inputTextPlayerO = document.getElementById("inputTextPlayerO");
-const fields = document.querySelectorAll(".card .grid .field");
-const labelUserData = document.getElementById("labelUserData");
+enum COOKIES {
+    PLAYER_X = "player_x",
+    POINTS_X = "points_x",
+    PLAYER_O = "player_o",
+    POINTS_O = "points_o"
+}
+
+const scoreLabel = document.getElementById("scoreLabel");
+const squareButtons = document.querySelectorAll("main div button");
+const userDialog = document.getElementById("userDialog");
+const playerX_TextField = <HTMLInputElement>document.getElementById("playerX_TextField");
+const playerO_TextField = <HTMLInputElement>document.getElementById("playerO_TextField");
+const closeButton = document.getElementById("closeButton");
+const infoDialog = document.getElementById("infoDialog");
+const infoLabel = document.getElementById("infoLabel");
 
 function init() {
-    if (getCookie("playerX").trim() === "" || getCookie("playerO").trim() === "" || getCookie("pointsX").trim() === "" || getCookie("pointsO").trim() === "") {
-        signInDialog.style.visibility = "visible";
+    if (checkCookies()) {
+        showScore();
     } else {
-        displayUserData();
+        showUserDialog();
     }
 }
 
-function selectField(index) {
-    if (fields[index].innerHTML !== "") {
+function selectField(index: number) {
+    if (!isEmpty(squareButtons[index].innerHTML)) {
         return;
     }
 
     if (clicks % 2 === 0) {
-        fields[index].innerHTML = "X";
+        squareButtons[index].innerHTML = "X";
     } else {
-        fields[index].innerHTML = "O";
+        squareButtons[index].innerHTML = "O";
     }
 
-    combinationsToWin.forEach((item) => {
-        if (fields[item[0]].innerHTML !== "" && fields[item[0]].innerHTML === fields[item[1]].innerHTML && fields[item[1]].innerHTML === fields[item[2]].innerHTML) {
-            fields.forEach((item) => {
+    COMBINATIONS_TO_WIN.forEach((item: number[]) => {
+        if (!isEmpty(squareButtons[item[0]].innerHTML) && squareButtons[item[0]].innerHTML === squareButtons[item[1]].innerHTML && squareButtons[item[1]].innerHTML === squareButtons[item[2]].innerHTML) {
+            squareButtons.forEach((item: HTMLButtonElement) => {
                 item.disabled = true;
             });
 
             if (clicks % 2 === 0) {
-                incrementCookieValue("pointsX");
+                incrementCookieValue(COOKIES.POINTS_X);
+                showWinner(COOKIES.PLAYER_X);
             } else {
-                incrementCookieValue("pointsO");
+                incrementCookieValue(COOKIES.POINTS_O);
+                showWinner(COOKIES.PLAYER_O);
             }
 
-            successDialog.style.visibility = "visible";
-            displayUserData();
+            showScore();
         }
     });
 
@@ -48,42 +58,86 @@ function selectField(index) {
 }
 
 function saveUserData() {
-    document.cookie = "playerX=" + inputTextPlayerX.value;
-    document.cookie = "pointsX=0";
-    document.cookie = "playerO=" + inputTextPlayerO.value;
-    document.cookie = "pointsO=0";
+    setCookie(COOKIES.PLAYER_X, playerX_TextField.value);
+    setCookie(COOKIES.POINTS_X, "0");
+    setCookie(COOKIES.PLAYER_O, playerO_TextField.value);
+    setCookie(COOKIES.POINTS_O, "0");
 
-    signInDialog.style.visibility = "hidden";
-    displayUserData();
+    userDialog.style.visibility = "hidden";
+    showScore();
 }
 
-function deleteUserData() {
-    document.cookie = "playerX=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-    document.cookie = "pointsX=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-    document.cookie = "playerO=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-    document.cookie = "pointsO=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-
-    signInDialog.style.visibility = "visible";
+function showScore() {
+    scoreLabel.innerText = getCookie(COOKIES.PLAYER_X) + " " + getCookie(COOKIES.POINTS_X) + ":" + getCookie(COOKIES.POINTS_O) + " " + getCookie(COOKIES.PLAYER_O);
 }
 
-function displayUserData() {
-    labelUserData.innerHTML = getCookie("playerX") + " " + getCookie("pointsX") + ":" + getCookie("pointsO") + " " + getCookie("playerO");
+function showUserDialog() {
+    if (checkCookies()) {
+        closeButton.style.visibility = "visible";
+    }
+
+    playerX_TextField.value = getCookie(COOKIES.PLAYER_X);
+    playerO_TextField.value = getCookie(COOKIES.PLAYER_O);
+
+    userDialog.style.visibility = "visible";
 }
 
-function getCookie(key) {
+function closeUserDialog() {
+    closeButton.style.visibility = "hidden";
+    userDialog.style.visibility = "hidden";
+}
+
+function showWinner(key: COOKIES) {
+    infoLabel.innerText = getCookie(key) + " hat gewonnen!";
+    infoDialog.style.visibility = "visible";
+}
+
+function reset() {
+    Object.keys(COOKIES).forEach((key: string) => {
+        deleteCookie(COOKIES[key]);
+    });
+
+    window.location.reload();
+}
+
+function checkCookies(): boolean {
+    let cookiesAreValid = true;
+
+    Object.keys(COOKIES).forEach((key: string) => {
+        if (isEmpty(getCookie(COOKIES[key]))) {
+            cookiesAreValid = false;
+        }
+    });
+
+    return cookiesAreValid
+}
+
+function setCookie(key: string, value: string) {
+    document.cookie = key + "=" + value;
+}
+
+function getCookie(key: COOKIES): string {
     const cookies = document.cookie.split("; ");
-    return cookies.filter((item) => {
-            const cookieKey = item.substr(0, 7);
+    return cookies.filter((item: string) => {
+            const cookieKey = item.substr(0, 8);
 
             if (cookieKey === key) {
                 return item;
             }
         }
-    ).toString().substr(8);
+    ).toString().substr(9);
 }
 
-function incrementCookieValue(key) {
-    document.cookie = key + "=" + (parseInt(getCookie(key)) + 1);
+function deleteCookie(key: COOKIES) {
+    document.cookie = key + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+}
+
+function incrementCookieValue(key: COOKIES) {
+    setCookie(key, (parseInt(getCookie(key)) + 1).toString());
+}
+
+function isEmpty(item: string): boolean {
+    return item.trim() === "";
 }
 
 init();

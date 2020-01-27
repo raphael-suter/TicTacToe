@@ -1,112 +1,202 @@
-// Colors
-$primary-color: white;
-$secondary-color: lightgrey;
-$accent-color: navy;
-$transparent: rgba(0, 0, 0, 0.5);
+$mainColor: #000080;
+$lightColor: #ffffff;
+$mediumColor: #f5f5f5;
+$darkColor: #000000;
 
-// Fonts
-$primary-font-family: arial, serif;
+* {
+  margin: 0;
+  padding: 0;
+  font-weight: 400;
+  font-family: "Source Sans Pro", serif;
+}
 
-// Other
-$primary-border-radius: 5px;
-
-// Mixins
-@mixin input() {
-  display: block;
-  padding: 10px;
+%button {
+  display: inline-block;
+  padding: 0.5rem 2rem;
+  border-radius: 2px;
   text-decoration: none;
-  font-family: $primary-font-family;
-  font-size: 16px;
-  border-radius: $primary-border-radius;
+  text-align: center;
+  font-size: 12pt;
+  color: $lightColor;
+  cursor: pointer;
+}
+
+%card {
+  max-width: 500px;
+  margin: auto;
+  padding: 0 1rem 1rem;
+  border-radius: 2px;
+  box-shadow: 0 0 8px 0 rgba($darkColor, 0.3);
 }
 
 body {
-  margin: 0;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
+  background: $lightColor;
+}
+
+header {
+  display: grid;
   align-items: center;
-  flex-direction: column;
-  background: $secondary-color;
+  grid-template-columns: 1fr 1fr 1fr;
+  background-color: $mainColor;
+  box-shadow: 0 2px 4px 0 rgba($darkColor, 0.3);
+
+  h1 {
+    margin: 1rem 1.5rem;
+    grid-column-start: 1;
+    font-size: 18pt;
+    color: $lightColor;
+  }
+
+  p {
+    grid-column-start: 2;
+    text-align: center;
+    font-size: 16pt;
+    font-weight: 700;
+    color: $lightColor;
+  }
+
+  button {
+    margin: 0 1.5rem;
+    padding-top: 0.1rem;
+    justify-self: end;
+    grid-column-start: 3;
+    background: $mainColor;
+    border: none;
+    cursor: pointer;
+
+    .material-icons {
+      font-size: 30px;
+      color: $lightColor;
+    }
+  }
 }
 
-.card {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin: 10px;
-  max-width: 350px;
-  padding: 0 15px;
-  text-align: center;
-  border-radius: $primary-border-radius;
-  box-shadow: 0 2px 8px 0 $transparent;
-  background: $primary-color;
-}
+main {
+  padding: 1.5rem;
 
-.title {
-  margin: 30px 0 10px;
-  font-family: $primary-font-family;
-}
+  .grid {
+    @extend %card;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 0.7rem;
+    padding-top: 1rem;
+    background: $mainColor;
 
-.grid {
-  padding: 5px;
-  display: flex;
-  flex-wrap: wrap;
-}
+    div {
+      position: relative;
+    }
 
-.field {
-  flex: 1;
-  margin: 5px;
-  height: 100px;
-  min-width: 100px;
-  border-radius: $primary-border-radius;
-  border: none;
-  font-size: 50px;
-  background: $secondary-color;
+    div:after {
+      content: "";
+      display: block;
+      padding-bottom: 100%;
+    }
+
+    button {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: $mediumColor;
+      border: none;
+      border-radius: 2px;
+      font-size: 50px;
+      cursor: pointer;
+    }
+  }
 }
 
 .modal {
   position: fixed;
   top: 0;
-  left: 0;
   right: 0;
   bottom: 0;
-  visibility: hidden;
+  left: 0;
   display: flex;
-  justify-content: center;
   align-items: center;
-  background: $transparent;
-}
+  justify-content: center;
+  background: rgba($darkColor, 0.4);
+  visibility: hidden;
 
-form {
-  .title {
-    margin-bottom: 5px;
+  form, div {
+    @extend %card;
+    position: relative;
+    flex: 1;
+    margin: 1rem;
+    display: flex;
+    flex-direction: column;
+    background: $lightColor;
+
+    h1 {
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+
+    label {
+      margin-top: 1rem;
+      font-weight: bold;
+      color: $mainColor;
+    }
+
+    input[type = "text"] {
+      margin-top: 0.5rem;
+      padding: 0.7rem;
+      font-size: 12pt;
+      border: 1px solid $mainColor;
+      border-radius: 2px;
+    }
+
+    a, input[type = "button"] {
+      @extend %button;
+      margin-top: 1rem;
+      background: $mainColor;
+      border: 1px solid $mainColor;
+    }
+
+    button {
+      position: absolute;
+      margin: 0.8rem;
+      top: 0;
+      right: 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      visibility: hidden;
+    }
   }
 }
 
-label {
-  width: 100%;
-  margin: 0 10px -6px;
-  z-index: 100;
-  text-align: left;
-  font-weight: bold;
-  font-family: $primary-font-family;
-  font-size: 14px;
-  color: $accent-color;
+footer {
+  padding: 0.6rem 1.5rem;
+  text-align: right;
+  background: $mediumColor;
+  box-shadow: 0 -2px 4px 0 rgba($darkColor, 0.3);
+
+  button {
+    @extend %button;
+    border: 2px solid $mainColor;
+    background: $mainColor;
+    color: $lightColor;
+  }
 }
 
-input[type="text"] {
-  margin: 10px;
-  border: 1px solid $secondary-color;
-  @include input();
-}
+@media (max-width: 800px) {
+  header {
+    grid-template-columns: 1fr auto;
 
-.link {
-  margin: 15px 10px 25px;
-  background: $accent-color;
-  border: none;
-  font-weight: bold;
-  color: $primary-color;
-  cursor: pointer;
-  @include input();
+    p {
+      padding: 0.5rem 1.5rem;
+      grid-column: 1/3;
+      order: 1;
+      background: $mediumColor;
+      color: $darkColor;
+    }
+
+    button {
+      grid-column-start: 2;
+    }
+  }
 }
