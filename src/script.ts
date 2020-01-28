@@ -29,6 +29,10 @@ function showUserDialog() {
 }
 
 function saveUserData() {
+    if (!textFieldHasValue(playerX_TextField) || !textFieldHasValue(playerO_TextField)) {
+        return;
+    }
+
     setCookie(COOKIES.PLAYER_X, playerX_TextField.value);
     setCookie(COOKIES.POINTS_X, "0");
     setCookie(COOKIES.PLAYER_O, playerO_TextField.value);
@@ -49,12 +53,12 @@ function selectField(index: number) {
         squareButtons[index].innerHTML = "O";
     }
 
+    if (checkIfEven()) {
+        displayMessage("Unentschieden!");
+    }
+
     COMBINATIONS.forEach((item: number[]) => {
         if (!isEmpty(squareButtons[item[0]].innerHTML) && squareButtons[item[0]].innerHTML === squareButtons[item[1]].innerHTML && squareButtons[item[1]].innerHTML === squareButtons[item[2]].innerHTML) {
-            squareButtons.forEach((item: HTMLButtonElement) => {
-                item.disabled = true;
-            });
-
             if (clicks % 2 === 0) {
                 incrementCookieValue(COOKIES.POINTS_X);
                 displayWinner(COOKIES.PLAYER_X);
@@ -75,7 +79,11 @@ function displayScore() {
 }
 
 function displayWinner(key: COOKIES) {
-    infoLabel.innerText = getCookie(key) + " hat gewonnen!";
+    displayMessage(getCookie(key) + " hat gewonnen!");
+}
+
+function displayMessage(text: string) {
+    infoLabel.innerText = text;
     infoDialog.style.visibility = "visible";
 }
 
@@ -89,6 +97,28 @@ function checkCookies(): boolean {
     });
 
     return cookiesAreValid
+}
+
+function textFieldHasValue(textField: HTMLInputElement): boolean {
+    if (isEmpty(textField.value)) {
+        textField.classList.add("empty");
+        return false;
+    } else {
+        textField.classList.remove("empty");
+        return true;
+    }
+}
+
+function checkIfEven(): boolean {
+    let noEmptyFields = true;
+
+    squareButtons.forEach((item: Element) => {
+        if (isEmpty(item.innerHTML)) {
+            noEmptyFields = false;
+        }
+    });
+
+    return noEmptyFields;
 }
 
 function reset() {

@@ -122,7 +122,7 @@ main .grid button {
 .modal form label, .modal div label {
   margin-top: 1rem;
   font-weight: bold;
-  color: #000080;
+  color: #000000;
 }
 .modal form input[type=text], .modal div input[type=text] {
   margin-top: 0.5rem;
@@ -130,6 +130,9 @@ main .grid button {
   font-size: 12pt;
   border: 1px solid #000080;
   border-radius: 2px;
+}
+.modal form input[type=text].empty, .modal div input[type=text].empty {
+  border-color: red;
 }
 .modal form a, .modal form input[type=button], .modal div a, .modal div input[type=button] {
   margin-top: 1rem;

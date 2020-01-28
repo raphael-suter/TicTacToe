@@ -26,6 +26,9 @@ function showUserDialog() {
     userDialog.style.visibility = "visible";
 }
 function saveUserData() {
+    if (!textFieldHasValue(playerX_TextField) || !textFieldHasValue(playerO_TextField)) {
+        return;
+    }
     setCookie(COOKIES.PLAYER_X, playerX_TextField.value);
     setCookie(COOKIES.POINTS_X, "0");
     setCookie(COOKIES.PLAYER_O, playerO_TextField.value);
@@ -43,11 +46,11 @@ function selectField(index) {
     else {
         squareButtons[index].innerHTML = "O";
     }
+    if (checkIfEven()) {
+        displayMessage("Unentschieden!");
+    }
     COMBINATIONS.forEach(function (item) {
         if (!isEmpty(squareButtons[item[0]].innerHTML) && squareButtons[item[0]].innerHTML === squareButtons[item[1]].innerHTML && squareButtons[item[1]].innerHTML === squareButtons[item[2]].innerHTML) {
-            squareButtons.forEach(function (item) {
-                item.disabled = true;
-            });
             if (clicks % 2 === 0) {
                 incrementCookieValue(COOKIES.POINTS_X);
                 displayWinner(COOKIES.PLAYER_X);
@@ -65,7 +68,10 @@ function displayScore() {
     scoreLabel.innerText = getCookie(COOKIES.PLAYER_X) + " " + getCookie(COOKIES.POINTS_X) + ":" + getCookie(COOKIES.POINTS_O) + " " + getCookie(COOKIES.PLAYER_O);
 }
 function displayWinner(key) {
-    infoLabel.innerText = getCookie(key) + " hat gewonnen!";
+    displayMessage(getCookie(key) + " hat gewonnen!");
+}
+function displayMessage(text) {
+    infoLabel.innerText = text;
     infoDialog.style.visibility = "visible";
 }
 function checkCookies() {
@@ -76,6 +82,25 @@ function checkCookies() {
         }
     });
     return cookiesAreValid;
+}
+function textFieldHasValue(textField) {
+    if (isEmpty(textField.value)) {
+        textField.classList.add("empty");
+        return false;
+    }
+    else {
+        textField.classList.remove("empty");
+        return true;
+    }
+}
+function checkIfEven() {
+    var noEmptyFields = true;
+    squareButtons.forEach(function (item) {
+        if (isEmpty(item.innerHTML)) {
+            noEmptyFields = false;
+        }
+    });
+    return noEmptyFields;
 }
 function reset() {
     Object.keys(COOKIES).forEach(function (key) {

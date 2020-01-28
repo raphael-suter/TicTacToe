@@ -138,7 +138,7 @@ main {
     label {
       margin-top: 1rem;
       font-weight: bold;
-      color: $mainColor;
+      color: $darkColor;
     }
 
     input[type = "text"] {
@@ -147,6 +147,10 @@ main {
       font-size: 12pt;
       border: 1px solid $mainColor;
       border-radius: 2px;
+
+      &.empty {
+        border-color: red;
+      }
     }
 
     a, input[type = "button"] {
