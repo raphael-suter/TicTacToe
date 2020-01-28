@@ -29,7 +29,12 @@ function showUserDialog() {
 }
 
 function saveUserData() {
-    if (!textFieldHasValue(playerX_TextField) || !textFieldHasValue(playerO_TextField)) {
+    let countEmptyFields = 0;
+
+    countEmptyFields += textFieldIsEmpty(playerX_TextField);
+    countEmptyFields += textFieldIsEmpty(playerO_TextField);
+
+    if (countEmptyFields > 0) {
         return;
     }
 
@@ -53,11 +58,7 @@ function selectField(index: number) {
         squareButtons[index].innerHTML = "O";
     }
 
-    if (checkIfEven()) {
-        displayMessage("Unentschieden!");
-    }
-
-    COMBINATIONS.forEach((item: number[]) => {
+    for (const item of COMBINATIONS) {
         if (!isEmpty(squareButtons[item[0]].innerHTML) && squareButtons[item[0]].innerHTML === squareButtons[item[1]].innerHTML && squareButtons[item[1]].innerHTML === squareButtons[item[2]].innerHTML) {
             if (clicks % 2 === 0) {
                 incrementCookieValue(COOKIES.POINTS_X);
@@ -68,8 +69,13 @@ function selectField(index: number) {
             }
 
             displayScore();
+            return;
         }
-    });
+    }
+
+    if (checkIfEven()) {
+        displayMessage("Unentschieden!");
+    }
 
     clicks++;
 }
@@ -97,16 +103,6 @@ function checkCookies(): boolean {
     });
 
     return cookiesAreValid
-}
-
-function textFieldHasValue(textField: HTMLInputElement): boolean {
-    if (isEmpty(textField.value)) {
-        textField.classList.add("empty");
-        return false;
-    } else {
-        textField.classList.remove("empty");
-        return true;
-    }
 }
 
 function checkIfEven(): boolean {
@@ -155,6 +151,16 @@ function incrementCookieValue(key: COOKIES) {
 
 function isEmpty(item: string): boolean {
     return item.trim() === "";
+}
+
+function textFieldIsEmpty(textField: HTMLInputElement): number {
+    if (isEmpty(textField.value)) {
+        textField.classList.add("empty");
+        return 1;
+    } else {
+        textField.classList.remove("empty");
+        return 0;
+    }
 }
 
 init();

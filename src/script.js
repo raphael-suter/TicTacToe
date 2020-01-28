@@ -26,7 +26,10 @@ function showUserDialog() {
     userDialog.style.visibility = "visible";
 }
 function saveUserData() {
-    if (!textFieldHasValue(playerX_TextField) || !textFieldHasValue(playerO_TextField)) {
+    var countEmptyFields = 0;
+    countEmptyFields += textFieldIsEmpty(playerX_TextField);
+    countEmptyFields += textFieldIsEmpty(playerO_TextField);
+    if (countEmptyFields > 0) {
         return;
     }
     setCookie(COOKIES.PLAYER_X, playerX_TextField.value);
@@ -46,10 +49,8 @@ function selectField(index) {
     else {
         squareButtons[index].innerHTML = "O";
     }
-    if (checkIfEven()) {
-        displayMessage("Unentschieden!");
-    }
-    COMBINATIONS.forEach(function (item) {
+    for (var _i = 0, COMBINATIONS_1 = COMBINATIONS; _i < COMBINATIONS_1.length; _i++) {
+        var item = COMBINATIONS_1[_i];
         if (!isEmpty(squareButtons[item[0]].innerHTML) && squareButtons[item[0]].innerHTML === squareButtons[item[1]].innerHTML && squareButtons[item[1]].innerHTML === squareButtons[item[2]].innerHTML) {
             if (clicks % 2 === 0) {
                 incrementCookieValue(COOKIES.POINTS_X);
@@ -60,8 +61,12 @@ function selectField(index) {
                 displayWinner(COOKIES.PLAYER_O);
             }
             displayScore();
+            return;
         }
-    });
+    }
+    if (checkIfEven()) {
+        displayMessage("Unentschieden!");
+    }
     clicks++;
 }
 function displayScore() {
@@ -82,16 +87,6 @@ function checkCookies() {
         }
     });
     return cookiesAreValid;
-}
-function textFieldHasValue(textField) {
-    if (isEmpty(textField.value)) {
-        textField.classList.add("empty");
-        return false;
-    }
-    else {
-        textField.classList.remove("empty");
-        return true;
-    }
 }
 function checkIfEven() {
     var noEmptyFields = true;
@@ -128,5 +123,15 @@ function incrementCookieValue(key) {
 }
 function isEmpty(item) {
     return item.trim() === "";
+}
+function textFieldIsEmpty(textField) {
+    if (isEmpty(textField.value)) {
+        textField.classList.add("empty");
+        return 1;
+    }
+    else {
+        textField.classList.remove("empty");
+        return 0;
+    }
 }
 init();
