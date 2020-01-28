@@ -1,5 +1,5 @@
 var clicks = 0;
-var COMBINATIONS_TO_WIN = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
+var COMBINATIONS = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
 var COOKIES;
 (function (COOKIES) {
     COOKIES["PLAYER_X"] = "player_x";
@@ -12,16 +12,26 @@ var squareButtons = document.querySelectorAll("main div button");
 var userDialog = document.getElementById("userDialog");
 var playerX_TextField = document.getElementById("playerX_TextField");
 var playerO_TextField = document.getElementById("playerO_TextField");
-var closeButton = document.getElementById("closeButton");
 var infoDialog = document.getElementById("infoDialog");
 var infoLabel = document.getElementById("infoLabel");
 function init() {
     if (checkCookies()) {
-        showScore();
+        displayScore();
     }
     else {
         showUserDialog();
     }
+}
+function showUserDialog() {
+    userDialog.style.visibility = "visible";
+}
+function saveUserData() {
+    setCookie(COOKIES.PLAYER_X, playerX_TextField.value);
+    setCookie(COOKIES.POINTS_X, "0");
+    setCookie(COOKIES.PLAYER_O, playerO_TextField.value);
+    setCookie(COOKIES.POINTS_O, "0");
+    userDialog.style.visibility = "hidden";
+    displayScore();
 }
 function selectField(index) {
     if (!isEmpty(squareButtons[index].innerHTML)) {
@@ -33,56 +43,30 @@ function selectField(index) {
     else {
         squareButtons[index].innerHTML = "O";
     }
-    COMBINATIONS_TO_WIN.forEach(function (item) {
+    COMBINATIONS.forEach(function (item) {
         if (!isEmpty(squareButtons[item[0]].innerHTML) && squareButtons[item[0]].innerHTML === squareButtons[item[1]].innerHTML && squareButtons[item[1]].innerHTML === squareButtons[item[2]].innerHTML) {
             squareButtons.forEach(function (item) {
                 item.disabled = true;
             });
             if (clicks % 2 === 0) {
                 incrementCookieValue(COOKIES.POINTS_X);
-                showWinner(COOKIES.PLAYER_X);
+                displayWinner(COOKIES.PLAYER_X);
             }
             else {
                 incrementCookieValue(COOKIES.POINTS_O);
-                showWinner(COOKIES.PLAYER_O);
+                displayWinner(COOKIES.PLAYER_O);
             }
-            showScore();
+            displayScore();
         }
     });
     clicks++;
 }
-function saveUserData() {
-    setCookie(COOKIES.PLAYER_X, playerX_TextField.value);
-    setCookie(COOKIES.POINTS_X, "0");
-    setCookie(COOKIES.PLAYER_O, playerO_TextField.value);
-    setCookie(COOKIES.POINTS_O, "0");
-    userDialog.style.visibility = "hidden";
-    showScore();
-}
-function showScore() {
+function displayScore() {
     scoreLabel.innerText = getCookie(COOKIES.PLAYER_X) + " " + getCookie(COOKIES.POINTS_X) + ":" + getCookie(COOKIES.POINTS_O) + " " + getCookie(COOKIES.PLAYER_O);
 }
-function showUserDialog() {
-    if (checkCookies()) {
-        closeButton.style.visibility = "visible";
-    }
-    playerX_TextField.value = getCookie(COOKIES.PLAYER_X);
-    playerO_TextField.value = getCookie(COOKIES.PLAYER_O);
-    userDialog.style.visibility = "visible";
-}
-function closeUserDialog() {
-    closeButton.style.visibility = "hidden";
-    userDialog.style.visibility = "hidden";
-}
-function showWinner(key) {
+function displayWinner(key) {
     infoLabel.innerText = getCookie(key) + " hat gewonnen!";
     infoDialog.style.visibility = "visible";
-}
-function reset() {
-    Object.keys(COOKIES).forEach(function (key) {
-        deleteCookie(COOKIES[key]);
-    });
-    window.location.reload();
 }
 function checkCookies() {
     var cookiesAreValid = true;
@@ -92,6 +76,12 @@ function checkCookies() {
         }
     });
     return cookiesAreValid;
+}
+function reset() {
+    Object.keys(COOKIES).forEach(function (key) {
+        deleteCookie(COOKIES[key]);
+    });
+    window.location.reload();
 }
 function setCookie(key, value) {
     document.cookie = key + "=" + value;

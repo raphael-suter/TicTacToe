@@ -13,8 +13,8 @@
 <header>
     <h1>TicTacToe</h1>
     <p id="scoreLabel">O 0:0 X</p>
-    <button onclick="showUserDialog()">
-        <i class="material-icons">account_circle</i>
+    <button onclick="reset()">
+        <i class="material-icons">delete</i>
     </button>
 </header>
 <main>
@@ -55,9 +55,6 @@
         <label for="playerO_TextField">Spieler O</label>
         <input id="playerO_TextField" placeholder="Name" required type="text"/>
         <input type="button" value="START GAME" onclick="saveUserData()"/>
-        <button id="closeButton" onclick="closeUserDialog(); return false">
-            <i class="material-icons">close</i>
-        </button>
     </form>
 </div>
 <div class="modal" id="infoDialog">
@@ -66,8 +63,5 @@
         <a href="">Nochmal spielen</a>
     </div>
 </div>
-<footer>
-    <button onclick="reset()">RESET</button>
-</footer>
 </body>
 </html>
