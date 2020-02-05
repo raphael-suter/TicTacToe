@@ -1,0 +1,36 @@
+{
+  "name": "tictactoe",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "ts": "tsc src/script.ts -sourcemap",
+    "sass": "sass src/stylesheet.scss src/stylesheet.css",
+    "komplett_bauen": "npm run ts && npm run sass",
+    "webpack": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raphael-suter/tictactoe.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/raphael-suter/tictactoe/issues"
+  },
+  "homepage": "https://github.com/raphael-suter/tictactoe#readme",
+  "dependencies": {
+    "@axa-ch/button": "^4.0.6"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "babel-loader": "^8.0.6",
+    "babel-preset-env": "^1.7.0",
+    "sass": "^1.25.0",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.5",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
+  }
+}
