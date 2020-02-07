@@ -31,7 +31,7 @@ const infoLabel = document.getElementById('infoLabel');
         reset();
     });
 
-    squareButtons.forEach((item: Element, index: number) => {
+    Array.prototype.forEach.call(squareButtons, (item: Element, index: number) => {
         item.addEventListener('click', () => {
             selectField(index);
         });
