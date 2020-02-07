@@ -1,33 +1,49 @@
-import '@axa-ch/button';
+import './stylesheet.scss';
 
-let clicks = 0;
-const COMBINATIONS = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
+let clicks: number = 0;
+const COMBINATIONS: number[][] = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
 
 enum COOKIES {
-    PLAYER_X = "player_x",
-    POINTS_X = "points_x",
-    PLAYER_O = "player_o",
-    POINTS_O = "points_o"
+    PLAYER_X = 'player_x',
+    POINTS_X = 'points_x',
+    PLAYER_O = 'player_o',
+    POINTS_O = 'points_o'
 }
 
-const scoreLabel = document.getElementById("scoreLabel");
-const squareButtons = document.querySelectorAll("main div button");
-const userDialog = document.getElementById("userDialog");
-const playerX_TextField = <HTMLInputElement>document.getElementById("playerX_TextField");
-const playerO_TextField = <HTMLInputElement>document.getElementById("playerO_TextField");
-const infoDialog = document.getElementById("infoDialog");
-const infoLabel = document.getElementById("infoLabel");
+const scoreLabel = document.getElementById('scoreLabel');
+const deleteButton = document.getElementById('deleteButton');
+const squareButtons = document.querySelectorAll(".grid button");
+const userDialog = document.getElementById('userDialog');
+const playerX_TextField = <HTMLInputElement>document.getElementById('playerX_TextField');
+const playerO_TextField = <HTMLInputElement>document.getElementById('playerO_TextField');
+const startButton = document.getElementById('startButton');
+const infoDialog = document.getElementById('infoDialog');
+const infoLabel = document.getElementById('infoLabel');
 
-function init() {
+(function () {
     if (checkCookies()) {
         displayScore();
     } else {
         showUserDialog();
     }
-}
+
+    deleteButton.addEventListener('click', () => {
+        reset();
+    });
+
+    squareButtons.forEach((item: Element, index: number) => {
+        item.addEventListener('click', () => {
+            selectField(index);
+        });
+    });
+
+    startButton.addEventListener('click', () => {
+        saveUserData();
+    })
+})();
 
 function showUserDialog() {
-    userDialog.style.visibility = "visible";
+    userDialog.style.visibility = 'visible';
 }
 
 function saveUserData() {
@@ -41,11 +57,11 @@ function saveUserData() {
     }
 
     setCookie(COOKIES.PLAYER_X, playerX_TextField.value);
-    setCookie(COOKIES.POINTS_X, "0");
+    setCookie(COOKIES.POINTS_X, '0');
     setCookie(COOKIES.PLAYER_O, playerO_TextField.value);
-    setCookie(COOKIES.POINTS_O, "0");
+    setCookie(COOKIES.POINTS_O, '0');
 
-    userDialog.style.visibility = "hidden";
+    userDialog.style.visibility = 'hidden';
     displayScore();
 }
 
@@ -55,9 +71,9 @@ function selectField(index: number) {
     }
 
     if (clicks % 2 === 0) {
-        squareButtons[index].innerHTML = "X";
+        squareButtons[index].innerHTML = 'X';
     } else {
-        squareButtons[index].innerHTML = "O";
+        squareButtons[index].innerHTML = 'O';
     }
 
     for (const item of COMBINATIONS) {
@@ -76,23 +92,23 @@ function selectField(index: number) {
     }
 
     if (checkIfEven()) {
-        displayMessage("Unentschieden!");
+        displayMessage('Unentschieden!');
     }
 
     clicks++;
 }
 
 function displayScore() {
-    scoreLabel.innerText = getCookie(COOKIES.PLAYER_X) + " " + getCookie(COOKIES.POINTS_X) + ":" + getCookie(COOKIES.POINTS_O) + " " + getCookie(COOKIES.PLAYER_O);
+    scoreLabel.innerText = getCookie(COOKIES.PLAYER_X) + ' ' + getCookie(COOKIES.POINTS_X) + ':' + getCookie(COOKIES.POINTS_O) + ' ' + getCookie(COOKIES.PLAYER_O);
 }
 
 function displayWinner(key: COOKIES) {
-    displayMessage(getCookie(key) + " hat gewonnen!");
+    displayMessage(getCookie(key) + ' hat gewonnen!');
 }
 
 function displayMessage(text: string) {
     infoLabel.innerText = text;
-    infoDialog.style.visibility = "visible";
+    infoDialog.style.visibility = 'visible';
 }
 
 function checkCookies(): boolean {
@@ -128,11 +144,11 @@ function reset() {
 }
 
 function setCookie(key: COOKIES, value: string) {
-    document.cookie = key + "=" + value;
+    document.cookie = key + '=' + value;
 }
 
 function getCookie(key: COOKIES): string {
-    const cookies = document.cookie.split("; ");
+    const cookies = document.cookie.split('; ');
     return cookies.filter((item: string) => {
             const cookieKey = item.substr(0, 8);
 
@@ -144,7 +160,7 @@ function getCookie(key: COOKIES): string {
 }
 
 function deleteCookie(key: COOKIES) {
-    document.cookie = key + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    document.cookie = key + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT';
 }
 
 function incrementCookieValue(key: COOKIES) {
@@ -152,17 +168,15 @@ function incrementCookieValue(key: COOKIES) {
 }
 
 function isEmpty(item: string): boolean {
-    return item.trim() === "";
+    return item.trim() === '';
 }
 
 function textFieldIsEmpty(textField: HTMLInputElement): number {
     if (isEmpty(textField.value)) {
-        textField.classList.add("empty");
+        textField.classList.add('empty');
         return 1;
     } else {
-        textField.classList.remove("empty");
+        textField.classList.remove('empty');
         return 0;
     }
 }
-
-init();

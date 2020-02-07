@@ -7,7 +7,7 @@ $darkColor: #000000;
   margin: 0;
   padding: 0;
   font-weight: 400;
-  font-family: "Source Sans Pro", serif;
+  font-family: 'Source Sans Pro', serif;
 }
 
 %button {
@@ -91,7 +91,7 @@ main {
     }
 
     div:after {
-      content: "";
+      content: '';
       display: block;
       padding-bottom: 100%;
     }
@@ -141,7 +141,7 @@ main {
       color: $darkColor;
     }
 
-    input[type = "text"] {
+    input[type = 'text'] {
       margin-top: 0.5rem;
       padding: 0.7rem;
       font-size: 12pt;
@@ -153,7 +153,7 @@ main {
       }
     }
 
-    a, input[type = "button"] {
+    a, input[type = 'button'] {
       @extend %button;
       margin-top: 1rem;
       background: $mainColor;

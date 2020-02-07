@@ -1,7 +1,8 @@
-const path = require('path');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: './src/script.ts',
+    mode: 'development',
     module: {
         rules: [
             {
@@ -9,17 +10,18 @@ module.exports = {
                 use: 'ts-loader',
                 exclude: /node_modules/,
             },
-            /*{
-                test: /.js$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['env']
-                    }
-                }
-            }*/
+            {
+                test: /\.s[ac]ss$/i,
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    'sass-loader',
+                ],
+            }
         ]
     },
-
+    plugins: [new HtmlWebpackPlugin({
+        filename: 'index.html',
+        template: "src/index.html"
+    })]
 };
